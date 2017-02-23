@@ -48,6 +48,8 @@ alias vi='vim'
 alias lf='ls -F'
 alias du='du -h'
 alias df='df -h'
+alias cat='cat -n'
+alias rm='rm -i'
 
 # direnv setting
 export EDITOR=vi
