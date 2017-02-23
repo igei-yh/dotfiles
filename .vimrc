@@ -20,6 +20,7 @@ call dein#add('tomasr/molokai')
 call dein#add('itchyny/lightline.vim')
 call dein#add('Yggdroot/indentLine')
 call dein#add('scrooloose/syntastic')
+call dein#add('bronson/vim-trailing-whitespace')
 call dein#add('davidhalter/jedi-vim')
 call dein#add('jmcantrell/vim-virtualenv')
 
