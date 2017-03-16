@@ -7,7 +7,7 @@ let s:dein_dir = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if !isdirectory(s:dein_repo_dir)
-  execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+  execute '!git clone git://github.com:Shougo/dein.vim.git' s:dein_repo_dir
 endif
 
 execute 'set runtimepath^=' . s:dein_repo_dir
@@ -23,6 +23,8 @@ call dein#add('scrooloose/syntastic')
 call dein#add('bronson/vim-trailing-whitespace')
 call dein#add('davidhalter/jedi-vim')
 call dein#add('jmcantrell/vim-virtualenv')
+call dein#add('hashivim/vim-terraform')
+call dein#add('cohama/lexima.vim')
 
 call dein#end()
 filetype plugin indent on
