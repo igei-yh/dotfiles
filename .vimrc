@@ -25,6 +25,7 @@ call dein#add('davidhalter/jedi-vim')
 call dein#add('jmcantrell/vim-virtualenv')
 call dein#add('hashivim/vim-terraform')
 call dein#add('cohama/lexima.vim')
+call dein#add('elzr/vim-json')
 
 call dein#end()
 filetype plugin indent on
@@ -41,6 +42,10 @@ let g:rehash256 = 1
 let g:lightline = {
   \ 'colorscheme': 'molokai'
   \}
+
+" json syntax config
+let g:vim_json_syntax_conceal = 0
+
 syntax on
 
 " auto indent settings
