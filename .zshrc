@@ -54,6 +54,6 @@ alias rm='rm -i'
 # direnv setting
 export EDITOR=vi
 eval "$(direnv hook zsh)"
-export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
