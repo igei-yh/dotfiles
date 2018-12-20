@@ -26,7 +26,7 @@ setopt share_history
 # prompt setting
 autoload colors
 colors
-PROMPT='%m:%F{magenta}%~%f %n %F{yellow}$%f '
+PROMPT='%m:%F{magenta}%(5~, %-2~/.../%3~, %~)%f %n %F{yellow}$%f '
 PROMPT2='%m:%F{magenta}%~%f %n %F{yellow}$%f '
 SPROMPT="%F{red}%r is correct? [n,y,a,e]:%f "
 
@@ -59,4 +59,8 @@ eval "$(direnv hook zsh)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+
+# rbenv setting
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
+eval "$(rbenv init -)"
