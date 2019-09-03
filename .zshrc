@@ -1,5 +1,5 @@
 # environment variable setting
-export LANG=ja_JP.UTF-8
+export LANG=en_US.UTF-8
 export HOMEBREW_CASK_OPTIONS="--appdir/Applications"
 
 # Completion setting
@@ -26,8 +26,8 @@ setopt share_history
 # prompt setting
 autoload colors
 colors
-PROMPT='%m:%F{magenta}%(5~, %-2~/.../%3~, %~)%f %n %F{yellow}$%f '
-PROMPT2='%m:%F{magenta}%~%f %n %F{yellow}$%f '
+PROMPT='%F{magenta}%(5~, %-2~/.../%3~, %~)%f %F{yellow}$%f '
+PROMPT2='%F{magenta}%~%f %F{yellow}$%f '
 SPROMPT="%F{red}%r is correct? [n,y,a,e]:%f "
 
 # git prompt setting
@@ -60,7 +60,15 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# golang setting
+export GOROOT="/usr/local/opt/go/libexec"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+
 # rbenv setting
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
 eval "$(rbenv init -)"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/Cellar/tfenv/0.6.0/versions/0.11.14/terraform terraform
