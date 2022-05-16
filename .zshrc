@@ -3,7 +3,7 @@ export LANG=en_US.UTF-8
 export HOMEBREW_CASK_OPTIONS="--appdir/Applications"
 
 # Completion setting
-autoload -U compinit
+autoload -Uz compinit
 compinit
 setopt list_packed
 
@@ -15,6 +15,27 @@ setopt auto_pushd
 setopt correct
 autoload predict-on
 predict-on
+
+# cdr setting
+if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
+    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+    add-zsh-hook chpwd chpwd_recent_dirs
+    zstyle ':completion:*' recent-dirs-insert both
+    zstyle ':chpwd:*' recent-dirs-default true
+    zstyle ':chpwd:*' recent-dirs-max 1000
+    zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
+fi
+
+# peco cdr setting
+function peco-cdr () {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+}
+zle -N peco-cdr
+bindkey '^H' peco-cdr
 
 # history setting
 HISTFILE=~/.zsh_history
@@ -48,22 +69,26 @@ alias vi='vim'
 alias lf='ls -F'
 alias du='du -h'
 alias df='df -h'
-alias cat='cat -n'
 alias rm='rm -i'
+# for ghq/peco
+alias repo='cd $(ghq list -p | peco)'
 
 # direnv setting
 export EDITOR=vi
 eval "$(direnv hook zsh)"
 
 # pyenv setting
+export PYTHONIOENCODING=utf-8
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PYENV_ROOT/shims:$PATH"
 eval "$(pyenv init -)"
 
-# golang setting
-export GOROOT="/usr/local/opt/go/libexec"
-export GOPATH="$HOME/go"
-export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+# goenv setting
+export GOENV_ROOT="$HOME/.goenv"
+export PATH=$GOENV_ROOT/bin:$PATH
+eval "$(goenv init -)"
+export PATH=$GOROOT/bin:$PATH
+export PATH=$PATH:$GOPATH/bin
 
 # rbenv setting
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -71,4 +96,26 @@ export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
 eval "$(rbenv init -)"
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/Cellar/tfenv/0.6.0/versions/0.11.14/terraform terraform
+complete -C '/usr/local/bin/aws_completer' aws
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+# nodebrew
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
+
+# item2 shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# drawio
+export DRAWIOPATH="/Applications/draw.io.app/Contents/MacOS"
+export PATH="$DRAWIOPATH:$PATH"
+
+# python virtual env PS1
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+PS1='$(show_virtual_env)'$PS1
+
+# gitignore.io
+function create-gitignore() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
