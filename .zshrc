@@ -97,7 +97,6 @@ eval "$(rbenv init -)"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
-complete -o nospace -C /usr/local/bin/terraform terraform
 
 # nodebrew
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
@@ -119,3 +118,9 @@ PS1='$(show_virtual_env)'$PS1
 
 # gitignore.io
 function create-gitignore() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
+
+# terraform
+if type terraform &> /dev/null; then
+  complete -C terraform terraform
+fi
+
